@@ -1,5 +1,6 @@
 package id.bytezilla.hellojetpackcompose
 
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,8 +24,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.outlined.KeyboardArrowDown
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -34,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
@@ -75,7 +80,8 @@ fun HelloJetpackComposeApp() {
     }
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL)
+@Preview(showBackground = true, device = Devices.PIXEL_4)
+@Preview(showBackground = true, device = Devices.PIXEL_4, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun HelloJetpackComposeAppPreview() {
     HelloJetpackComposeTheme {
@@ -110,37 +116,50 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
         )
     )
 
-    Row (
-        modifier = modifier.padding(8.dp),
-        verticalAlignment = Alignment.CenterVertically
-    )
-    {
-        Image(
-            painter = painterResource(id = R.drawable.jetpack_compose),
-            contentDescription = "Jetpack Compose Logo",
-            modifier = Modifier.size(animatedSizeDp)
+    Card (
+        shape = MaterialTheme.shapes.medium,
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer
+        ),
+        modifier = Modifier.padding(vertical = 4.dp, horizontal = 8.dp)
+    ) {
+        Row(
+            modifier = modifier.padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically
         )
-
-        Spacer(modifier = Modifier.width(8.dp))
-
-        Column (modifier = Modifier.weight(1f)){
-            Text(
-                text = "Hello $name!",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold
+        {
+            Image(
+                painter = painterResource(id = R.drawable.jetpack_compose),
+                contentDescription = "Jetpack Compose Logo",
+                modifier = Modifier.size(animatedSizeDp)
             )
-            Text(text = "Welcome to Dicoding!")
-        }
-        IconButton(onClick = { isExpanded = !isExpanded }) {
-            Icon(
-                imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown,
-                contentDescription = if (isExpanded) "Show less" else "Show more"
-            )
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = "Hello $name!",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+                Text(
+                    text = "Welcome to Dicoding!",
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        fontStyle = FontStyle.Italic
+                    ))
+            }
+            IconButton(onClick = { isExpanded = !isExpanded }) {
+                Icon(
+                    imageVector = if (isExpanded) Icons.Filled.KeyboardArrowUp else Icons.Outlined.KeyboardArrowDown,
+                    contentDescription = if (isExpanded) "Show less" else "Show more"
+                )
+            }
         }
     }
 }
 
 @Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun GreetingPreview() {
     HelloJetpackComposeTheme {
